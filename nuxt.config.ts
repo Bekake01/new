@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   modules: ['@nuxt/image', '@nuxt/ui'],
   css: ['@/assets/main.css',],
   ui: {
-    colorMode: false
+    colorMode: false,
   },
   app: {
     head: {

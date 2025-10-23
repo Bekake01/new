@@ -16,7 +16,6 @@
             <Blog />
             <Questions />
         </div>
-        <Footer/>
     </div>
 </template>
 <script setup>

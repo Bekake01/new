@@ -31,7 +31,7 @@ export default defineAppConfig({
                 ghost: 'bg-transparent border border-gray-200'
             }
         }
-    }
+    },
   }
 })
 

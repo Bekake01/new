@@ -1,13 +1,13 @@
 <template>
     <div
-        class="backdrop-blur-md bg-gray-50/55 rounded-2xl shadow-2xl w-full max-w-md lg:max-w-lg border border-gray-300 p-4 sm:p-6 md:p-8">
+        class="backdrop-blur-md bg-gray-50/55 rounded-2xl shadow-2xl w-full max-w-md lg:max-w-lg border border-gray-300 p-4 sm:p-5 lg:p-6">
         <!-- Step Header -->
-        <h2 class="text-xl sm:text-2xl md:text-3xl text-center font-bold text-gray-900 mb-3">
+        <h2 class="text-xl sm:text-2xl lg:text-3xl text-center font-bold text-gray-900 mb-2 sm:mb-3">
             {{ stepHeaders[currentStep - 1] }}
         </h2>
 
         <!-- Progress Bar -->
-        <div class="mb-6 md:mb-7">
+        <div class="mb-4 sm:mb-5 lg:mb-6">
             <div class="h-2 bg-gray-300/50 rounded-full overflow-hidden">
                 <div class="h-full bg-yellow-300 rounded-full transition-all duration-300"
                     :style="{ width: `${(currentStep / 3) * 100}%` }"></div>
@@ -16,7 +16,7 @@
 
         <!-- Step 1: Locations -->
         <div v-if="currentStep === 1">
-            <UForm :schema="step1Schema" :state="state" @submit="nextStep" class="space-y-4">
+            <UForm :schema="step1Schema" :state="state" @submit="nextStep" class="space-y-3 sm:space-y-4">
                 <UFormField name="from_location" label="Pick-up Location" class="w-full">
                     <USelectMenu v-model="state.from_location" v-model:search-term="fromSearchTerm"
                         :items="fromLocations" :search-input="{ placeholder: 'Type city name...' }" label-key="display"
@@ -37,7 +37,7 @@
 
         <!-- Step 2: Vehicle Details -->
         <div v-if="currentStep === 2">
-            <UForm :schema="vehicleSchema" :state="currentVehicle" class="space-y-4">
+            <UForm :schema="vehicleSchema" :state="currentVehicle" class="space-y-3 sm:space-y-4">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <UFormField name="vehicle_year" label="Year" class="w-full">
                         <UInputNumber v-model="currentVehicle.vehicle_year" placeholder="2024" size="lg"
@@ -88,7 +88,7 @@
 
         <!-- Step 3: Shipping Details -->
         <div v-if="currentStep === 3">
-            <UForm :schema="step3Schema" :state="state" @submit="submitForm" class="space-y-4">
+            <UForm :schema="step3Schema" :state="state" @submit="submitForm" class="space-y-3 sm:space-y-4">
                 <UFormField name="type" label="Trailer Type">
                     <URadioGroup v-model="state.type" :items="['Open', 'Enclosed']" size="lg"
                         orientation="horizontal" />
@@ -143,7 +143,7 @@ const stepHeaders = [
 ]
 
 // Current step
-const currentStep = ref(1)
+const currentStep = ref(3)
 
 // Step 1 Schema - Locations
 const step1Schema = z.object({
@@ -276,13 +276,15 @@ function prevStep() {
 
 // Final form submission
 async function submitForm() {
-    const { success } = step3Schema.safeParse(state)
-    if (success && vehicles.value.length > 0) {
+    const { success, data } = step3Schema.safeParse(state)
+    if(success){
         const formData = {
             ...state,
             vehicles: vehicles.value
         }
         console.log('Form submitted:', formData)
+    }
+    if (success && vehicles.value.length > 0) {
         // Handle form submission - send to API, etc.
     }
 }

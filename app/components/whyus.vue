@@ -83,22 +83,22 @@
 <script setup>
 const whyus = ref([
     {
-        icon: 'heroicons:rocket-launch-solid',
+        icon: 'entypo:rocket',
         title: 'Lightning-Fast Delivery',
         description: `Skip the 2,000+ mile road trip. We handle everything from pickup to doorstep delivery across all 50 states. Our advanced logistics network ensures your vehicle arrives on time, every time—typically within 1-7 days nationwide.`
     },
     {
-        icon: 'heroicons:shield-check-solid',
+        icon: 'famicons:shield-checkmark-sharp',
         title: 'Vehicle Protection',
         description: `Your car travels with $1M+ insurance coverage and GPS tracking. From exotic supercars to family sedans, we use enclosed carriers for premium vehicles and trusted open transport for standard cars—all with white-glove care.`
     },
     {
-        icon: 'heroicons:currency-dollar-solid',
-        title: 'Guaranteed Lowest Prices',
-        description: `Our TruePrice Guarantee locks in your rate for 30 days—no hidden fees, no surprises. Save thousands compared to driving (gas, hotels, wear & tear). Get instant quotes and pay only when your car is safely delivered.`
+        icon: 'solar:dollar-bold',
+        title: 'True Price Guarantee',
+        description: `Our True Price Guarantee locks in your rate for 30 days—no hidden fees, no surprises. Save thousands compared to driving (gas, hotels, wear & tear). Get instant quotes and pay only when your car is safely delivered.`
     },
     {
-        icon: 'heroicons:cog-6-tooth-solid',
+        icon: 'mdi:gear',
         title: 'Custom Transport Solutions',
         description: `Door-to-door or terminal pickup, open or enclosed carriers, expedited or economy shipping. Whether you're relocating, buying online, or need seasonal transport—we customize every shipment to fit your timeline and budget.`
     },

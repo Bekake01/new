@@ -1,29 +1,41 @@
 <template>
     <div 
-        class="w-full h-16 fixed top-0 left-0 z-200 transition-all duration-300 ease-in-out"
+        class="w-full h-16 fixed top-0 left-0 z-50 transition-all duration-300 ease-in-out"
         :class="[isScrolled 
-                ? 'bg-white/80 backdrop-blur-md shadow-lg' 
-                : 'bg-transparent'
+                ? 'bg-black/50 backdrop-blur-md shadow-lg' 
+                : 'bg-transparent backdrop-blur-sm'
         ]"
     >
         <!-- Desktop Layout -->
-        <div class="hidden lg:flex items-center justify-between h-full px-8">
+        <div class="hidden lg:flex items-center justify-between h-full px-4 sm:px-6 lg:px-8 xl:px-20">
             <!-- Logo -->
-            <div class="flex-shrink-0 cursor-pointer rounded-full px-[2rem]" @click="navigateTo('/')">
+            <div class="flex-shrink-0 cursor-pointer hover:scale-105 transition-transform duration-300" @click="navigateTo('/')">
                 <NuxtImg src="/logo.png" class="h-14 w-auto" alt="First Line Transport"/>
             </div>
             
             <!-- Navigation Links -->
-            <!-- <nav class="flex items-center space-x-8 px-10 py-2 rounded-3xl">
-                <NuxtLink v-for="link in links" :key="link.name" :to="link.link"
-                class="hover:text-blue-600 transition-colors font-medium" :class="[isScrolled ? 'text-black/80' : 'text-white/80']">
+            <nav class="flex items-center space-x-2 px-8 py-2 rounded-3xl border transition-all duration-300"
+                :class="[isScrolled 
+                    ? ' border-white/20 shadow-sm' 
+                    : ' border-white/20'
+                ]">
+                <NuxtLink v-for="link in links" :key="link.name"
+                    class="px-4 py-2 rounded-2xl text-white font-medium transition-all duration-300 relative group"
+                    :class="[isScrolled 
+                        ? 'hover:text-blue-600 hover:bg-blue-50' 
+                        : 'hover:text-blue-400 hover:bg-white/10'
+                    ]">
                     {{ link.name }}
+                    <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-blue-600 group-hover:w-3/4 transition-all duration-300"></span>
                 </NuxtLink>
-            </nav> -->
+            </nav>
             
             <!-- Get Quote Button -->
             <div class="flex-shrink-0">
-                <UButton>Request a quote</UButton>
+                <button 
+                    class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold px-6 py-2.5 rounded-xl cursor-pointer transition-all duration-300 flex items-center gap-2 group/btn shadow-md hover:shadow-xl hover:scale-105">
+                    <span>Request a Quote</span>
+                </button>
             </div>
         </div>
 
@@ -32,7 +44,11 @@
             <!-- Menu Icon -->
             <button 
                 @click="toggleMobileMenu"
-                class="p-2 text-gray-700 hover:text-blue-600 transition-colors"
+                class="p-2 rounded-lg transition-all duration-300 hover:scale-110"
+                :class="[isScrolled 
+                    ? 'text-gray-700 hover:bg-gray-100' 
+                    : 'text-white hover:bg-white/10'
+                ]"
             >
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -45,8 +61,8 @@
             </div>
             
             <!-- Get Quote Button -->
-            <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                Get Quote
+            <button class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105">
+                    Get Quote
             </button>
         </div>
     </div>
@@ -101,16 +117,20 @@ const isScrolled = ref(false)
 const isMobileMenuOpen = ref(false)
 const links = ref([
     {
-        link: '/',
+        // link: '/',
         name: 'Home'
     },
     {
-        link: '/about',
+        // link: '/about',
         name: 'About'
     },
     {
-        link: '/contact',
+        // link: '/contact',
         name: 'Contact'
+    },
+    {
+        // link: '/blogs',
+        name: 'Blogs'
     }
 ])
 

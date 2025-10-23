@@ -67,9 +67,9 @@
             <p class="text-gray-700 text-lg mb-6 max-w-2xl mx-auto">
                 Every vehicle type is covered with comprehensive insurance during transport. Your peace of mind is our priority.
             </p>
-            <button class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold px-8 py-3 rounded-xl cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl">
+            <!-- <button class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold px-8 py-3 rounded-xl cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl">
                 View Insurance Details
-            </button>
+            </button> -->
         </div>
     </section>
 </template>
@@ -78,19 +78,19 @@
 const cars = [
     {
         img: '/luxury.jpg',
-        icon: 'heroicons:sparkles-solid',
+        icon: 'mynaui:sparkles-solid',
         title: 'Luxury Vehicles',
         description: 'Premium enclosed transport for high-end vehicles with climate control, soft-tie systems, and white-glove handling. Perfect for exotic cars, classics, and luxury automobiles requiring maximum protection.'
     },
     {
         img: '/sportcar.webp',
-        icon: 'heroicons:bolt-solid',
+        icon: 'clarity:bolt-solid',
         title: 'Sports Cars',
         description: 'Specialized low-clearance loading for performance vehicles with custom tie-down points. Our enclosed trailers protect your investment with hydraulic lift gates and padded interiors.'
     },
     {
         img: '/modern.jpg',
-        icon: 'heroicons:star-solid',
+        icon: 'iconoir:star-solid',
         title: 'Modern Sedans',
         description: 'Reliable transport for contemporary vehicles using both open and enclosed carriers. Cost-effective solutions with comprehensive insurance coverage and real-time tracking throughout delivery.'
     },

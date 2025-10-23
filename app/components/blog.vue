@@ -9,7 +9,7 @@
         <div class="mb-20 flex flex-col lg:flex-row items-center gap-8">
             <div class="w-full lg:w-1/2">
                 <NuxtImg src="/pricing.webp" alt="Car transportation pricing factors"
-                    class="w-full h-[400px] object-cover rounded-lg shadow-lg" />
+                    class="w-full h-[400px] object-cover rounded-lg shadow-lg" @click="router.push('/blogs/pricing')"/>
             </div>
             <div class="w-full lg:w-1/2">
                 <h3 class="text-3xl font-bold text-gray-900 mb-4">Understanding Pricing Factors</h3>
@@ -41,7 +41,7 @@
                             accessibility</span>
                     </li>
                 </ul>
-                <button
+                <button @click="router.push('/blogs/pricing')"
                     class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold px-6 py-3 rounded-xl cursor-pointer transition-all duration-300 flex items-center justify-center gap-2 group/btn shadow-md hover:shadow-xl">
                     <span>Read More</span>
                     <UIcon name="heroicons-solid:arrow-right" size="18"
@@ -54,7 +54,7 @@
         <div class="mb-20 flex flex-col lg:flex-row-reverse items-center gap-8">
             <div class="w-full lg:w-1/2">
                 <NuxtImg src="/mistakes.jpg" alt="Common car transport mistakes to avoid"
-                    class="w-full h-[400px] object-cover rounded-lg shadow-lg" />
+                    class="w-full h-[400px] object-cover rounded-lg shadow-lg" @click="router.push('/blogs/mistakes')"/>
             </div>
             <div class="w-full lg:w-1/2">
                 <h3 class="text-3xl font-bold text-gray-900 mb-4">Common Mistakes to Avoid</h3>
@@ -81,7 +81,7 @@
                     <p class="text-blue-900 font-semibold">✓ First Line Transport INC has no hidden fees – transparent
                         pricing guaranteed!</p>
                 </div>
-                <button
+                <button @click="router.push('/blogs/mistakes')"
                     class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold px-6 py-3 rounded-xl cursor-pointer transition-all duration-300 flex items-center justify-center gap-2 group/btn shadow-md hover:shadow-xl">
                     <span>Read More</span>
                     <UIcon name="heroicons-solid:arrow-right" size="18"
@@ -94,7 +94,7 @@
         <div class="mb-20 flex flex-col lg:flex-row items-center gap-8">
             <div class="w-full lg:w-1/2">
                 <NuxtImg src="/prepare.jpg" alt="Preparing your vehicle for transportation"
-                    class="w-full h-[400px] object-cover rounded-lg shadow-lg" />
+                    class="w-full h-[400px] object-cover rounded-lg shadow-lg" @click="router.push('/blogs/prepare')"/>
             </div>
             <div class="w-full lg:w-1/2">
                 <h3 class="text-3xl font-bold text-gray-900 mb-4">Preparing for Car Shipping</h3>
@@ -122,7 +122,7 @@
                         <span class="text-gray-900 font-medium">Check lights and maintain ¼ tank fuel level</span>
                     </div>
                 </div>
-                <button
+                <button @click="router.push('/blogs/prepare')"
                     class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold px-6 py-3 rounded-xl cursor-pointer transition-all duration-300 flex items-center justify-center gap-2 group/btn shadow-md hover:shadow-xl">
                     <span>Read More</span>
                     <UIcon name="heroicons-solid:arrow-right" size="18"
@@ -135,10 +135,10 @@
         <div class="flex flex-col lg:flex-row-reverse items-center gap-8">
             <div class="w-full lg:w-1/2">
                 <NuxtImg src="/about.webp" alt="Inspecting vehicle condition before transport"
-                    class="w-full h-[400px] object-cover rounded-lg shadow-lg" />
+                    class="w-full h-[400px] object-cover rounded-lg shadow-lg" @click="router.push('/blogs/inspect')"/>
             </div>
             <div class="w-full lg:w-1/2">
-                <h3 class="text-3xl font-bold text-gray-900 mb-4">Inspecting Vehicle Condition</h3>
+                <h3 class="text-3xl font-bold text-gray-900 mb-4">Choosing the Right Transport Type</h3>
                 <p class="text-gray-700 mb-4">Proper documentation protects both you and the carrier. Here's why it
                     matters:</p>
                 <div class="space-y-4 mb-6">
@@ -162,7 +162,7 @@
                     <p class="text-yellow-900 text-sm"><span class="font-semibold">Pro Tip:</span> Keep copies of all
                         documentation for your records and insurance purposes.</p>
                 </div>
-                <button
+                <button @click="router.push('/blogs/inspect')"
                     class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold px-6 py-3 rounded-xl cursor-pointer transition-all duration-300 flex items-center justify-center gap-2 group/btn shadow-md hover:shadow-xl">
                     <span>Read More</span>
                     <UIcon name="heroicons-solid:arrow-right" size="18"
@@ -172,3 +172,6 @@
         </div>
     </div>
 </template>
+<script setup>
+const router = useRouter()
+</script>
