@@ -969,11 +969,11 @@
                     vehicle for a smooth, worry-free transport experience.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button
+                    <!-- <button
                         class="bg-white text-blue-600 px-8 py-4 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer font-semibold shadow-lg hover:shadow-xl text-lg">
                         Download Checklist
-                    </button>
-                    <button
+                    </button> -->
+                    <button @click="openModal()"
                         class="bg-blue-800 text-white px-8 py-4 rounded-xl hover:bg-blue-900 transition-colors cursor-pointer font-semibold border-2 border-white/30 text-lg">
                         Get Free Quote
                     </button>
@@ -985,6 +985,11 @@
 </template>
 
 <script setup>
+const modal = useState('globalModal', () => false)
+
+function openModal(){
+    modal.value = !modal.value
+}
 // SEO Meta tags
 useHead({
     title: 'How to Prepare Your Vehicle for Shipping | First Line Transport INC',
@@ -995,4 +1000,5 @@ useHead({
         }
     ]
 })
+
 </script>

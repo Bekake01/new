@@ -31,8 +31,8 @@
             </nav> -->
             
             <!-- Get Quote Button -->
-            <div class="flex-shrink-0">
-                <button 
+            <div class="flex-shrink-0" v-if="isScrolled">
+                <button @click="openModal()"
                     class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold px-6 py-2.5 rounded-xl cursor-pointer transition-all duration-300 flex items-center gap-2 group/btn shadow-md hover:shadow-xl hover:scale-105">
                     <span>Request a Quote</span>
                 </button>
@@ -60,7 +60,8 @@
             </div>
             
             <!-- Get Quote Button -->
-            <button class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105">
+            <button class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105"
+            @click="openModal()">
                     Get Quote
             </button>
         </div>
@@ -104,7 +105,7 @@
 </template>
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-
+const modal = useState('globalModal', () => false)
 const isScrolled = ref(false)
 const isMobileMenuOpen = ref(false)
 const links = ref([
@@ -142,6 +143,11 @@ const toggleMobileMenu = () => {
     } else {
         document.body.style.overflow = ''
     }
+}
+
+const openModal = () => {
+    console.log('openModal')
+    modal.value = !modal.value
 }
 
 const closeMobileMenu = () => {

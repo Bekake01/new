@@ -135,7 +135,7 @@
         <div class="flex flex-col lg:flex-row-reverse items-center gap-8">
             <div class="w-full lg:w-1/2">
                 <NuxtImg src="/about.webp" alt="Inspecting vehicle condition before transport"
-                    class="w-full h-[400px] object-cover rounded-lg shadow-lg" @click="router.push('/blogs/inspect')"/>
+                    class="w-full h-[400px] object-cover rounded-lg shadow-lg" @click="router.push('/blogs/transport_type')"/>
             </div>
             <div class="w-full lg:w-1/2">
                 <h3 class="text-3xl font-bold text-gray-900 mb-4">Choosing the Right Transport Type</h3>
@@ -162,7 +162,7 @@
                     <p class="text-yellow-900 text-sm"><span class="font-semibold">Pro Tip:</span> Keep copies of all
                         documentation for your records and insurance purposes.</p>
                 </div>
-                <button @click="router.push('/blogs/inspect')"
+                <button @click="router.push('/blogs/transport_type')"
                     class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold px-6 py-3 rounded-xl cursor-pointer transition-all duration-300 flex items-center justify-center gap-2 group/btn shadow-md hover:shadow-xl">
                     <span>Read More</span>
                     <UIcon name="heroicons-solid:arrow-right" size="18"

@@ -10,7 +10,7 @@
         <div class="mb-4 sm:mb-5 lg:mb-6">
             <div class="h-2 bg-gray-300/50 rounded-full overflow-hidden">
                 <div class="h-full bg-yellow-300 rounded-full transition-all duration-300"
-                    :style="{ width: `${(currentStep / 3) * 100}%` }"></div>
+                    :style="{ width: `${(currentStep / 4) * 100}%` }"></div>
             </div>
         </div>
 
@@ -113,7 +113,7 @@
 
         <!-- Step 3: Shipping Details -->
         <div v-if="currentStep === 3">
-            <UForm :schema="step3Schema" :state="state" @submit="submitForm" class="space-y-3 sm:space-y-4">
+            <UForm :schema="shippingSchema" :state="state" @submit="nextStep" class="space-y-3 sm:space-y-4">
                 <UFormField name="type" label="Trailer Type">
                     <URadioGroup v-model="state.type" :items="['Open', 'Enclosed']" size="lg"
                         orientation="horizontal" />
@@ -123,6 +123,22 @@
                     <UInput v-model="state.ship_date" type="date" size="lg" class="w-full" />
                 </UFormField>
 
+                <div class="flex gap-3">
+                    <UButton type="submit" size="lg" block>
+                        Continue to Contact Info
+                    </UButton>
+                </div>
+            </UForm>
+        </div>
+
+        <!-- Step 4: Contact Information -->
+        <div v-if="currentStep === 4">
+            <UForm :schema="contactSchema" :state="state" @submit="submitForm" class="space-y-3 sm:space-y-4">
+                <UFormField name="full_name" label="Full Name" class="w-full">
+                    <UInput v-model="state.full_name" type="text" size="lg" class="w-full"
+                        placeholder="Enter your full name" />
+                </UFormField>
+
                 <UFormField name="email" label="Email" class="w-full">
                     <UInput v-model="state.email" type="email" size="lg" class="w-full" autocomplete="on" />
                 </UFormField>
@@ -130,10 +146,6 @@
                 <UFormField name="phone" label="Phone Number" class="w-full">
                     <UInput v-model="state.phone" v-maska="{ mask: '+1 (###) ###-####' }" size="lg" class="w-full"
                         placeholder="(555) 123-4567" autocomplete="tel" />
-                </UFormField>
-                <UFormField name="full_name" label="Full Name" class="w-full">
-                    <UInput v-model="state.full_name" type="text" size="lg" class="w-full"
-                        placeholder="Enter your full name" />
                 </UFormField>
 
                 <div class="flex gap-3">
@@ -179,11 +191,12 @@ interface FormState {
 const stepHeaders = [
     'Locations',
     'Tell us about your vehicle(s)',
-    'Shipping preferences'
+    'Shipping preferences',
+    'Contact Information'
 ]
 
 // Current step
-const currentStep = ref(3)
+const currentStep = ref(1)
 
 // Step 1 Schema - Locations
 const step1Schema = z.object({
@@ -223,12 +236,16 @@ const step2Schema = z.object({
 })
 
 // Step 3 Schema - Shipping Details
-const step3Schema = z.object({
+const shippingSchema = z.object({
     ship_date: z.string().min(1, 'Ship date is required'),
-    type: z.string().min(1, 'Trailer type is required'),
+    type: z.string().min(1, 'Trailer type is required')
+})
+
+// Step 4 Schema - Contact Information
+const contactSchema = z.object({
     email: z.string().email('Valid email is required'),
     phone: z.string().min(10, 'Valid phone number is required').regex(/^[\d\s\-\(\)\+\.]+$/, 'Invalid phone number format'),
-    full_name: z.string().min(0, '').default('')
+    full_name: z.string().min(1, 'Full name is required')
 })
 
 // Main form state
@@ -402,7 +419,7 @@ function nextStep() {
         currentVehicle.vehicle_model = ''
         currentVehicle.inop = false
     }
-    if (currentStep.value < 3) {
+    if (currentStep.value < 4) {
         currentStep.value++
     }
 }
@@ -416,8 +433,7 @@ function prevStep() {
 
 // Final form submission
 async function submitForm() {
-    const { success, data } = step3Schema.safeParse(state)
-    // if (success && vehicles.value.length > 0) {
+    const { success } = contactSchema.safeParse(state)
     if (success) {
         const formData = {
             ...state,

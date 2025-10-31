@@ -755,7 +755,7 @@
                     guides you every step of the way.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button
+                    <button @click="openModal()"
                         class="bg-white text-blue-600 px-8 py-4 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer font-semibold shadow-lg hover:shadow-xl text-lg">
                         Get Free Quote
                     </button>
@@ -771,6 +771,11 @@
 </template>
 
 <script setup>
+const modal = useState('globalModal', () => false)
+
+function openModal(){
+    modal.value = !modal.value
+}
 // SEO Meta tags
 useHead({
     title: 'Common Car Shipping Mistakes to Avoid | First Line Transport INC',

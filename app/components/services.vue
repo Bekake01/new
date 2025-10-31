@@ -71,7 +71,7 @@
                     <span class="font-bold">Not sure which service is right for you?</span> Our team is here to help you
                     choose the best option.
                 </p>
-                <button
+                <button 
                     class="bg-blue-600 text-white px-8 py-3 rounded-xl hover:bg-blue-700 transition-colors cursor-pointer font-semibold shadow-lg hover:shadow-xl">
                     Get Free Consultation
                 </button>

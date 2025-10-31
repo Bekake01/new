@@ -19,6 +19,12 @@ const items = computed<NavigationMenuItem[]>(() => [
     active: route.path.startsWith('/contact')
   },
 ])
+
+const modal = useState('globalModal', () => false)
+
+function openModal(){
+    modal.value = !modal.value
+}
 </script>
 
 <template>
@@ -33,7 +39,7 @@ const items = computed<NavigationMenuItem[]>(() => [
     <UNavigationMenu :items="items" />
 
     <template #right>
-    <UButton>Request a quote</UButton>
+    <UButton @click="openModal()">Request a quote</UButton>
 
       <!-- <UTooltip text="Open on GitHub" :kbds="['meta', 'G']">
         <UButton

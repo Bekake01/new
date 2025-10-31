@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   ssr: true,
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  modules: ['@nuxt/image', '@nuxt/ui', '@nuxtjs/sitemap', '@nuxtjs/seo'],
+  modules: ['@nuxt/image', '@nuxt/ui', '@nuxtjs/sitemap', '@nuxtjs/seo', 'nuxt-jsonld'],
   css: ['@/assets/main.css',],
   ui: {
     colorMode: false,

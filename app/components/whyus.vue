@@ -70,7 +70,7 @@
                         <p class="text-white text-xl lg:text-2xl font-semibold mb-6">
                             Ready to ship your vehicle with confidence?
                         </p>
-                        <button class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold px-10 py-4 rounded-xl cursor-pointer transition-all duration-300 shadow-2xl hover:shadow-blue-500/50 hover:scale-105">
+                        <button @click="openModal()" class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold px-10 py-4 rounded-xl cursor-pointer transition-all duration-300 shadow-2xl hover:shadow-blue-500/50 hover:scale-105">
                             Get Free Quote Now
                         </button>
                     </div>
@@ -81,6 +81,11 @@
 </template>
 
 <script setup>
+const modal = useState('globalModal', () => false)
+
+function openModal(){
+    modal.value = !modal.value
+}
 const whyus = ref([
     {
         icon: 'entypo:rocket',

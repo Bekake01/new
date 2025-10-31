@@ -597,7 +597,7 @@
                     Experience the convenience of door-to-door car shipping with First Line Transport INC. Get a transparent quote with no hidden fees and no upfront payments required.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button
+                    <button @click="openModal()"
                         class="bg-white text-blue-600 px-8 py-4 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer font-semibold shadow-lg hover:shadow-xl text-lg">
                         Get Free Quote Now
                     </button>
@@ -613,6 +613,11 @@
 </template>
 
 <script setup>
+const modal = useState('globalModal', () => false)
+
+function openModal(){
+    modal.value = !modal.value
+}
 // SEO Meta tags
 useHead({
     title: 'Door-to-Door Car Shipping Service | First Line Transport INC',

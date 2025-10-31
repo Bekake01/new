@@ -543,7 +543,7 @@
                     <button
                         class="bg-white text-blue-600 px-8 py-4 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer font-bold text-lg shadow-lg hover:shadow-xl flex items-center gap-2">
                         <UIcon name="heroicons:calculator-solid" size="24" />
-                        <span>Get Your Free Quote</span>
+                        <span @click="openModal()">Get Your Free Quote</span>
                     </button>
                     
                     <button
@@ -576,4 +576,9 @@
 
 <script setup>
 const router = useRouter()
+const modal = useState('globalModal', () => false)
+
+function openModal(){
+    modal.value = !modal.value
+}
 </script>

@@ -488,7 +488,7 @@
                     Experience the most affordable and reliable open auto transport service with First Line Transport INC. Get a transparent quote with no hidden fees and no upfront payments required.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button
+                    <button @click="openModal()"
                         class="bg-white text-blue-600 px-8 py-4 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer font-semibold shadow-lg hover:shadow-xl text-lg">
                         Get Your Free Quote
                     </button>
@@ -505,6 +505,11 @@
 
 <script setup>
 // SEO Meta tags
+const modal = useState('globalModal', () => false)
+
+function openModal(){
+    modal.value = !modal.value
+}
 useHead({
     title: 'Open Auto Transport Service | First Line Transport INC',
     meta: [

@@ -577,7 +577,7 @@
                     Get a transparent quote for Hawaii or Alaska car shipping. We'll help you build the best route, timeline, and delivery plan to get your car where it needs to go.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button
+                    <button @click="openModal()"
                         class="bg-white text-blue-600 px-8 py-4 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer font-semibold shadow-lg hover:shadow-xl text-lg">
                         Request a Quote Now
                     </button>
@@ -603,4 +603,10 @@ useHead({
         }
     ]
 })
+
+const modal = useState('globalModal', () => false)
+
+function openModal(){
+    modal.value = !modal.value
+}
 </script>

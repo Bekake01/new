@@ -505,7 +505,7 @@
                     Get transparent pricing with no hidden fees. Our TruePrice Guarantee locks in your rate for 30 days.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button
+                    <button @click="openModal()"
                         class="bg-white text-blue-600 px-8 py-4 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer font-semibold shadow-lg hover:shadow-xl text-lg">
                         Get Instant Quote
                     </button>
@@ -521,6 +521,7 @@
 </template>
 
 <script setup>
+
 // SEO Meta tags
 useHead({
     title: 'Understanding Auto Transport Pricing | First Line Transport INC',
@@ -531,4 +532,10 @@ useHead({
         }
     ]
 })
+
+const modal = useState('globalModal', () => false)
+
+function openModal(){
+    modal.value = !modal.value
+}
 </script>
