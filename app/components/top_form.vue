@@ -1,6 +1,6 @@
 <template>
     <div
-        class="backdrop-blur-md bg-gray-50/55 rounded-2xl shadow-2xl w-full max-w-md lg:max-w-lg border border-gray-300 p-4 sm:p-5 lg:p-6">
+        class="backdrop-blur-md bg-gray-50/75 rounded-2xl shadow-2xl w-full max-w-md lg:max-w-lg border border-gray-300 p-4 sm:p-5 lg:p-6">
         <!-- Step Header -->
         <h2 class="text-xl sm:text-2xl lg:text-3xl text-center font-bold text-gray-900 mb-2 sm:mb-3">
             {{ stepHeaders[currentStep - 1] }}
@@ -17,16 +17,41 @@
         <!-- Step 1: Locations -->
         <div v-if="currentStep === 1">
             <UForm :schema="step1Schema" :state="state" @submit="nextStep" class="space-y-3 sm:space-y-4">
-                <UFormField name="from_location" label="Pick-up Location" class="w-full">
-                    <USelectMenu v-model="state.from_location" v-model:search-term="fromSearchTerm"
-                        :items="fromLocations" :search-input="{ placeholder: 'Type city name...' }" label-key="display"
-                        size="lg" class="w-full" />
+                <UFormField name="from_location" label="Pick-up Location(zip or city name)" class="w-full">
+                    <div class="relative">
+                        <USelectMenu v-if="!showFromInput" v-model="selectedFromLocation"
+                            v-model:search-term="fromSearchTerm" :items="fromLocations"
+                            :search-input="{ placeholder: 'Type city name or zip...' }" label-key="display" size="lg"
+                            class="w-full" @update:search-term="handleFromSearchChange" />
+                        <div v-else class="space-y-2">
+                            <div class="flex gap-2">
+                                <UInput v-model="fromSearchTerm" placeholder="Enter custom location..." size="lg"
+                                    class="flex-1" @input="handleFromInputChange" />
+                                <UButton @click="resetFromSearch" variant="outline" size="lg" icon="i-lucide-search">
+                                    Search
+                                </UButton>
+                            </div>
+                            <p class="text-xs text-gray-500">No matching cities found. Using custom location.</p>
+                        </div>
+                    </div>
                 </UFormField>
 
-                <UFormField name="to_location" label="Delivery Location" class="w-full">
-                    <USelectMenu v-model="state.to_location" v-model:search-term="toSearchTerm" :items="toLocations"
-                        :search-input="{ placeholder: 'Type city name...' }" label-key="display" size="lg"
-                        class="w-full" />
+                <UFormField name="to_location" label="Delivery Location(zip or city name)" class="w-full">
+                    <div class="relative">
+                        <USelectMenu v-if="!showToInput" v-model="selectedToLocation" v-model:search-term="toSearchTerm"
+                            :items="toLocations" :search-input="{ placeholder: 'Type city name or zip...' }"
+                            label-key="display" size="lg" class="w-full" @update:search-term="handleToSearchChange" />
+                        <div v-else class="space-y-2">
+                            <div class="flex gap-2">
+                                <UInput v-model="toSearchTerm" placeholder="Enter custom location..." size="lg"
+                                    class="flex-1" @input="handleToInputChange" />
+                                <UButton @click="resetToSearch" variant="outline" size="lg" icon="i-lucide-search">
+                                    Search
+                                </UButton>
+                            </div>
+                            <p class="text-xs text-gray-500">No matching cities found. Using custom location.</p>
+                        </div>
+                    </div>
                 </UFormField>
 
                 <UButton type="submit" size="lg" block class="mt-2">
@@ -101,6 +126,16 @@
                 <UFormField name="email" label="Email" class="w-full">
                     <UInput v-model="state.email" type="email" size="lg" class="w-full" autocomplete="on" />
                 </UFormField>
+
+                <UFormField name="phone" label="Phone Number" class="w-full">
+                    <UInput v-model="state.phone" v-maska="{ mask: '+1 (###) ###-####' }" size="lg" class="w-full"
+                        placeholder="(555) 123-4567" autocomplete="tel" />
+                </UFormField>
+                <UFormField name="full_name" label="Full Name" class="w-full">
+                    <UInput v-model="state.full_name" type="text" size="lg" class="w-full"
+                        placeholder="Enter your full name" />
+                </UFormField>
+
                 <div class="flex gap-3">
                     <UButton type="submit" size="lg" block>
                         Get Instant Quote
@@ -112,12 +147,15 @@
 </template>
 <script setup lang="ts">
 import * as z from 'zod'
-import { suggestCities } from '@/composables/useCities'
+import { useCitySearch } from '@/composables/useCitySearch'
+import { vMaska } from "maska/vue"
 
 interface CityOption {
+    zip: string
+    city: string
+    state_id: string
+    county_name: string
     display: string
-    name: string
-    stateCode?: string
 }
 
 interface Vehicle {
@@ -128,35 +166,47 @@ interface Vehicle {
 }
 
 interface FormState {
-    from_location: CityOption | undefined
-    to_location: CityOption | undefined
+    from_location: CityOption | string | undefined
+    to_location: CityOption | string | undefined
     ship_date: string
     type: string
     email: string
+    phone: string
+    full_name: string
 }
 
 // Step headers
 const stepHeaders = [
-    'Where are you shipping?',
+    'Locations',
     'Tell us about your vehicle(s)',
     'Shipping preferences'
 ]
 
 // Current step
-const currentStep = ref(1)
+const currentStep = ref(3)
 
 // Step 1 Schema - Locations
 const step1Schema = z.object({
-    from_location: z.object({
-        display: z.string(),
-        name: z.string(),
-        stateCode: z.string().optional()
-    }).refine(val => val !== undefined, 'Pick-up location is required'),
-    to_location: z.object({
-        display: z.string(),
-        name: z.string(),
-        stateCode: z.string().optional()
-    }).refine(val => val !== undefined, 'Delivery location is required')
+    from_location: z.union([
+        z.object({
+            zip: z.string(),
+            city: z.string(),
+            state_id: z.string(),
+            county_name: z.string(),
+            display: z.string()
+        }),
+        z.string().min(1, 'Pick-up location is required')
+    ]).refine(val => val !== undefined, 'Pick-up location is required'),
+    to_location: z.union([
+        z.object({
+            zip: z.string(),
+            city: z.string(),
+            state_id: z.string(),
+            county_name: z.string(),
+            display: z.string()
+        }),
+        z.string().min(1, 'Delivery location is required')
+    ]).refine(val => val !== undefined, 'Delivery location is required')
 })
 
 // Vehicle Schema
@@ -176,7 +226,9 @@ const step2Schema = z.object({
 const step3Schema = z.object({
     ship_date: z.string().min(1, 'Ship date is required'),
     type: z.string().min(1, 'Trailer type is required'),
-    email: z.string().email('Valid email is required')
+    email: z.string().email('Valid email is required'),
+    phone: z.string().min(10, 'Valid phone number is required').regex(/^[\d\s\-\(\)\+\.]+$/, 'Invalid phone number format'),
+    full_name: z.string().min(0, '').default('')
 })
 
 // Main form state
@@ -185,7 +237,9 @@ const state = reactive<FormState>({
     to_location: undefined,
     ship_date: '',
     type: 'Open',
-    email: ''
+    email: '',
+    phone: '',
+    full_name: ''
 })
 
 // Current vehicle being added
@@ -203,33 +257,119 @@ const vehicles = ref<Vehicle[]>([])
 const fromSearchTerm = ref('')
 const toSearchTerm = ref('')
 
-// Computed filtered items for from location
-const fromLocations = computed<CityOption[]>(() => {
-    const input = fromSearchTerm.value.trim()
-    if (input === '') {
-        return []
+// City search composable
+const { debouncedSearch } = useCitySearch()
+
+// Reactive arrays for search results
+const fromLocations = ref<CityOption[]>([])
+const toLocations = ref<CityOption[]>([])
+
+// Flags to determine if we should show input instead of select
+const showFromInput = ref(false)
+const showToInput = ref(false)
+
+// Computed properties for select menu models (only CityOption type)
+const selectedFromLocation = computed({
+    get: () => typeof state.from_location === 'object' ? state.from_location : undefined,
+    set: (value: CityOption | undefined) => {
+        state.from_location = value
     }
-    const suggestions = suggestCities(input, 20)
-    return suggestions.map(s => ({
-        name: s.name,
-        stateCode: s.stateCode,
-        display: s.stateCode ? `${s.name}, ${s.stateCode}` : s.name
-    }))
 })
 
-// Computed filtered items for to location
-const toLocations = computed<CityOption[]>(() => {
-    const input = toSearchTerm.value.trim()
-    if (input === '') {
-        return []
+const selectedToLocation = computed({
+    get: () => typeof state.to_location === 'object' ? state.to_location : undefined,
+    set: (value: CityOption | undefined) => {
+        state.to_location = value
     }
-    const suggestions = suggestCities(input, 20)
-    return suggestions.map(s => ({
-        name: s.name,
-        stateCode: s.stateCode,
-        display: s.stateCode ? `${s.name}, ${s.stateCode}` : s.name
-    }))
 })
+
+// Watch for changes in search terms and fetch results
+watch(fromSearchTerm, async (newTerm) => {
+    if (newTerm && newTerm.length >= 2) {
+        const results = await debouncedSearch(newTerm, 15)
+        fromLocations.value = results
+
+        // If no results found and user has typed enough, show input
+        if (results.length === 0 && newTerm.length >= 3) {
+            showFromInput.value = true
+            state.from_location = newTerm
+        } else {
+            showFromInput.value = false
+        }
+    } else {
+        fromLocations.value = []
+        showFromInput.value = false
+    }
+})
+
+watch(toSearchTerm, async (newTerm) => {
+    if (newTerm && newTerm.length >= 2) {
+        const results = await debouncedSearch(newTerm, 15)
+        toLocations.value = results
+
+        // If no results found and user has typed enough, show input
+        if (results.length === 0 && newTerm.length >= 3) {
+            showToInput.value = true
+            state.to_location = newTerm
+        } else {
+            showToInput.value = false
+        }
+    } else {
+        toLocations.value = []
+        showToInput.value = false
+    }
+})
+
+// Watch for when user selects an option to reset input mode
+watch(() => state.from_location, (newValue) => {
+    if (newValue && typeof newValue === 'object') {
+        showFromInput.value = false
+    }
+})
+
+watch(() => state.to_location, (newValue) => {
+    if (newValue && typeof newValue === 'object') {
+        showToInput.value = false
+    }
+})
+
+// Handle search term changes for from location
+function handleFromSearchChange(term: string) {
+    fromSearchTerm.value = term
+}
+
+// Handle search term changes for to location  
+function handleToSearchChange(term: string) {
+    toSearchTerm.value = term
+}
+
+// Handle input changes for custom from location
+function handleFromInputChange(event: Event) {
+    const target = event.target as HTMLInputElement
+    fromSearchTerm.value = target.value
+    state.from_location = target.value
+}
+
+// Handle input changes for custom to location
+function handleToInputChange(event: Event) {
+    const target = event.target as HTMLInputElement
+    toSearchTerm.value = target.value
+    state.to_location = target.value
+}
+
+// Reset from location search to show select menu again
+function resetFromSearch() {
+    showFromInput.value = false
+    fromSearchTerm.value = ''
+    state.from_location = undefined
+}
+
+// Reset to location search to show select menu again
+function resetToSearch() {
+    showToInput.value = false
+    toSearchTerm.value = ''
+    state.to_location = undefined
+}
 
 // Add vehicle to list
 function addVehicle() {
@@ -277,15 +417,27 @@ function prevStep() {
 // Final form submission
 async function submitForm() {
     const { success, data } = step3Schema.safeParse(state)
-    if(success){
+    // if (success && vehicles.value.length > 0) {
+    if (success) {
         const formData = {
             ...state,
+            from_location: state.from_location,
+            to_location: state.to_location,
             vehicles: vehicles.value
         }
-        console.log('Form submitted:', formData)
-    }
-    if (success && vehicles.value.length > 0) {
-        // Handle form submission - send to API, etc.
+
+        try {
+            const response = await $fetch('/api/submit', {
+                method: 'POST',
+                body: formData
+            })
+
+            console.log('Form submitted successfully:', response)
+            // You can add success handling here (show success message, redirect, etc.)
+        } catch (error) {
+            console.error('Form submission error:', error)
+            // You can add error handling here
+        }
     }
 }
 </script>

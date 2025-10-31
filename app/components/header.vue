@@ -7,14 +7,14 @@
         ]"
     >
         <!-- Desktop Layout -->
-        <div class="hidden lg:flex items-center justify-between h-full px-4 sm:px-6 lg:px-8 xl:px-20">
+        <div class="hidden lg:flex items-center justify-between h-full px-4 sm:px-6 lg:px-8 xl:px-30">
             <!-- Logo -->
-            <div class="flex-shrink-0 cursor-pointer hover:scale-105 transition-transform duration-300" @click="navigateTo('/')">
+            <div class="flex-shrink-0 cursor-pointer hover:scale-105 transition-transform duration-300" @click="scrollto()">
                 <NuxtImg src="/logo.png" class="h-14 w-auto" alt="First Line Transport"/>
             </div>
             
             <!-- Navigation Links -->
-            <nav class="flex items-center space-x-2 px-8 py-2 rounded-3xl border transition-all duration-300"
+            <!-- <nav class="flex items-center space-x-2 px-8 py-2 rounded-3xl border transition-all duration-300"
                 :class="[isScrolled 
                     ? ' border-white/20 shadow-sm' 
                     : ' border-white/20'
@@ -28,7 +28,7 @@
                     {{ link.name }}
                     <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-blue-600 group-hover:w-3/4 transition-all duration-300"></span>
                 </NuxtLink>
-            </nav>
+            </nav> -->
             
             <!-- Get Quote Button -->
             <div class="flex-shrink-0">
@@ -39,10 +39,9 @@
             </div>
         </div>
 
-        <!-- Mobile Layout -->
         <div class="lg:hidden flex items-center justify-between h-full px-4">
             <!-- Menu Icon -->
-            <button 
+            <!-- <button 
                 @click="toggleMobileMenu"
                 class="p-2 rounded-lg transition-all duration-300 hover:scale-110"
                 :class="[isScrolled 
@@ -53,7 +52,7 @@
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                 </svg>
-            </button>
+            </button> -->
             
             <!-- Logo -->
             <div class="flex-shrink-0">
@@ -128,7 +127,11 @@ const links = ref([
 ])
 
 const handleScroll = () => {
-    isScrolled.value = window.scrollY > 10
+    isScrolled.value = window.scrollY > 50
+}
+
+function scrollto(){
+    document.getElementById('maintop').scrollIntoView({behavior: 'smooth'})
 }
 
 const toggleMobileMenu = () => {

@@ -42,16 +42,16 @@
                             <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors duration-300">
                                 {{ item.title }}
                             </h3>
-                            <p class="text-sm sm:text-base text-gray-600 leading-relaxed line-clamp-3">
+                            <p class="text-sm sm:text-base text-gray-600 leading-relaxed line-clamp-5">
                                 {{ item.description }}
                             </p>
                             
                             <!-- Learn More Link -->
-                            <div class="mt-4 flex items-center text-blue-600 font-semibold text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <!-- <div class="mt-4 flex items-center text-blue-600 font-semibold text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 <span>Learn More</span>
                                 <UIcon name="heroicons-solid:arrow-right" size="16" 
                                     class="ml-1 group-hover:translate-x-1 transition-transform duration-300" />
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
