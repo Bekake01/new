@@ -12,11 +12,11 @@
             <div class="max-w-7xl mx-auto">
                 <!-- Header Section -->
                 <div class="text-center mb-16 lg:mb-20">
-                    <!-- <div class="inline-block mb-6">
+                    <div class="inline-block mb-6">
                         <span class="bg-blue-500/20 backdrop-blur-sm text-blue-200 px-5 py-2 rounded-full text-sm font-semibold border border-blue-400/30">
                             Why Choose Us
                         </span>
-                    </div> -->
+                    </div>
                     <h2 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 lg:mb-8">
                         Why Choose First Line Transport?
                     </h2>
