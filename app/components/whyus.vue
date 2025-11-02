@@ -25,7 +25,6 @@
                         reliability, safety, and customer service since day one.
                     </p>
                 </div>
-
                 <!-- Features Grid -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
                     <div v-for="(item, index) in whyus" :key="index"
